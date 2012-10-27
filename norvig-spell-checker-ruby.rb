@@ -1,4 +1,8 @@
-# A ruby implementation of Peter Norvig's Bayesian spell-checker. See here: http://norvig.com/spell-correct.html
+# A ruby implementation of Peter Norvig's Bayesian spell-checker. 
+# See here: http://norvig.com/spell-correct.html
+# To use, clone the repo, load up Ruby, and then try:
+# correct("somethin")       # => "something"
+# correct("elenphant")      # => "elephant"
 
 # Return all the words in a text, lowercased
 def words(text)
