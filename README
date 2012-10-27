@@ -1,0 +1,3 @@
+A Ruby implementation of a spellchecker, based on Peter Norvig's Python version. 
+
+I did this without looking the best 'solution' up - it's ugly, but it works. 
