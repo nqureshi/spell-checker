@@ -5,7 +5,8 @@ def words(text)
   text.downcase.scan(/[a-z]+/)
 end
 
-# Create a model of the English language: a hash containing each word in the text as the keys and a count of occurrences in the values
+# Create a model of the English language: a hash containing each word in the 
+# text as the keys and a count of occurrences in the values
 def train(features)
   # New words have keys initialized to 1; this is Python's defaultdict
   model = Hash.new {|hash, key| hash[key] = 1}
@@ -17,7 +18,9 @@ end
 NWORDS = train(words(File.open('big.txt','r').read))
 ALPHABET = 'abcdefghijklmnopqrstuvwxyz'
 
-# Return an array of anything one 'edit length' away from the word. An edit length means 1 letter either deleted (e.g. for ruby, 'rby'), transposed (e.g. 'rbuy'), replaced (e.g. 'rlby'), or inserted (e.g. 'rluby')
+# Return an array of anything one 'edit length' away from the word. An edit
+# length means 1 letter either deleted (e.g. for ruby, 'rby'), transposed 
+# (e.g. 'rbuy'), replaced (e.g. 'rlby'), or inserted (e.g. 'rluby')
 def edits1(word)
   # Split the word into nested pairs of each permutation
   split = 0.upto(word.length).map { |i| [word[0...i], word[i..word.length-1]] }
@@ -42,7 +45,8 @@ def edits1(word)
   result.uniq.compact
 end
 
-# Return an array of stuff 2 edit lengths away, by doing edit1 on its own results
+# Return an array of stuff 2 edit lengths away, by doing edit1 on its own 
+# results
 def known_edits2(word)
   result = []
   edits1(word).each { |e1| edits1(e1).each { |e2| result << e2 } }
@@ -60,7 +64,8 @@ def known(words)
   end
 end
 
-# The main function: prioritizes the original word if it's correct, then words an edit length away, then words 2 edit lengths away. Rather crude.
+# The main function: prioritizes the original word if it's correct, then words 
+# an edit length away, then words 2 edit lengths away. Rather crude.
 def correct(word)
   known(word) if known(word)
   candidates = known(edits1(word)) || known_edits2(word) || [word]
