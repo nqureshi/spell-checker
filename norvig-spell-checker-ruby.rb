@@ -7,7 +7,7 @@ end
 
 # Create a model of the English language: a hash containing each word in the text as the keys and a count of occurrences in the values
 def train(features)
-  # New keys initialized to 1; this is Python's defaultdict
+  # New words have keys initialized to 1; this is Python's defaultdict
   model = Hash.new {|hash, key| hash[key] = 1}
   features.each { |word| model[word] += 1 }
   model
@@ -15,10 +15,9 @@ end
 
 # Open the big.txt file and store the language model
 NWORDS = train(words(File.open('big.txt','r').read))
+ALPHABET = 'abcdefghijklmnopqrstuvwxyz'
 
-@alphabet = 'abcdefghijklmnopqrstuvwxyz'
-
-# Return an array of anything one 'edit length' away from the word
+# Return an array of anything one 'edit length' away from the word. An edit length means 1 letter either deleted (e.g. for ruby, 'rby'), transposed (e.g. 'rbuy'), replaced (e.g. 'rlby'), or inserted (e.g. 'rluby')
 def edits1(word)
   # Split the word into nested pairs of each permutation
   split = 0.upto(word.length).map { |i| [word[0...i], word[i..word.length-1]] }
@@ -26,14 +25,14 @@ def edits1(word)
   transposes = split.map { |a,b| a + b[1] + b[0] + b[2..b.length] if b.length > 1 }
   # Ugly code for replaces. I should be able to improve this.
   replaces = []
-  @alphabet.each_char do |letter|
+  ALPHABET.each_char do |letter|
     split.each do |a,b|
       replaces << a + letter + b[1..b.length] unless b.empty?
     end
   end
   # Ditto.
   inserts = []
-  @alphabet.each_char do |letter|
+  ALPHABET.each_char do |letter|
     split.each do |a,b|
       inserts << a + letter + b
     end
