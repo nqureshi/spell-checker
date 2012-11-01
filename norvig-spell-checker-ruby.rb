@@ -13,7 +13,7 @@ end
 # text as the keys and a count of occurrences in the values
 def train(features)
   # New words have keys initialized to 1; this is Python's defaultdict
-  model = Hash.new {|hash, key| hash[key] = 1}
+  model = Hash.new { |hash, key| hash[key] = 1 }
   features.each { |word| model[word] += 1 }
   model
 end
